@@ -1,0 +1,22 @@
+name: NotCensor
+version: '${project.version}'
+main: me.jadenp.notcensor.NotCensor
+api-version: '1.13'
+author: Not_Jaden
+softdepend:
+  - DiscordSRV
+commands:
+  NotCensor:
+    description: Used to control the plugin.
+permissions:
+  notcensor.view:
+    description: Allows the player to view censored text
+    default: false
+  notcensor.admin:
+    description: Allows the player to reload the plugin and is notified about censored messages.
+    default: op
+  notcensor.bypass:
+    description: Allows the player to bypass the censor.
+    default: false
+
+

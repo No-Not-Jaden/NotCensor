@@ -1,0 +1,11 @@
+# Whether messages with censored words are removed entirely
+remove-censored-messages: true
+# If remove-censored-messages is set to false, this controls how much of the censored words are starred
+# set to -1 to replace the word with a random number of stars
+# set to 1 to always sensor the second letter
+replacement-percent: 75
+# A message will be sent to the players with the notcensor.admin permission for censored messages
+censor-notification:
+  enabled: true
+  # If remove-censored-messages is enabled, the removed message will be sent too
+  message: '&7This message was censored.'

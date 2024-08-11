@@ -61,18 +61,20 @@ public class AsyncChatMessage implements CensorableMessage{
 
     @Override
     public boolean isChatMonitor() {
-        return false;
+        return !event.isAsynchronous();
     }
 
     @Override
     public void sendPseudoMessage(String message, Set<Player> recipients) {
-        String formattedMessage = getFormattedPlayerMessage(event.getPlayer(), message, recipients);
-        recipients.forEach(player -> player.sendMessage(formattedMessage));
+        if (!recipients.isEmpty()) {
+            String formattedMessage = getFormattedPlayerMessage(event.getPlayer(), message, recipients);
+            recipients.forEach(player -> player.sendMessage(formattedMessage));
+        }
     }
 
     private String getFormattedPlayerMessage(Player player, String messageReplacement, Set<Player> recipients) {
         // call AsyncPlayerChatEvent manually to allow other plugins to modify the message
-        AsyncPlayerChatEvent newMessage = new AsyncPlayerChatEvent(event.isAsynchronous(), player, messageReplacement, recipients);
+        AsyncPlayerChatEvent newMessage = new AsyncPlayerChatEvent(false, player, messageReplacement, recipients);
         Bukkit.getPluginManager().callEvent(newMessage);
         return String.format(newMessage.getFormat(), player.getDisplayName(), newMessage.getMessage());
     }

@@ -1,5 +1,7 @@
 package me.jadenp.notcensor;
 
+import me.jadenp.notcensor.listeners.DiscordSRVHook;
+import me.jadenp.notcensor.listeners.EssentialsXHook;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,13 +12,6 @@ import java.util.Objects;
 import java.util.Set;
 
 public class ConfigOptions {
-    private boolean removeCensoredMessages; // Whether messages with censored words are removed entirely
-    private int replacementPercent; // If remove-censored-messages is set to false, this controls how much of the censored words are removed
-    // A message will be sent to the players with the notcensor.admin permission for censored messages
-    private boolean censorNotificationEnabled;
-    private String censorNotificationMessage;
-
-    private Set<String> censoredWords;
 
     public ConfigOptions(NotCensor notCensor) {
         notCensor.saveDefaultConfig(); // save config if one doesn't exist already
@@ -41,10 +36,14 @@ public class ConfigOptions {
     }
 
     private void readConfig(FileConfiguration config) {
-        removeCensoredMessages = config.getBoolean("remove-censored-messages");
-        replacementPercent = config.getInt("replacement-percent");
-        censorNotificationEnabled = config.getBoolean("censor-notification.enabled");
-        censorNotificationMessage = config.getString("censor-notification.message");
+        CensorManager.setRemoveCensoredMessages(config.getBoolean("remove-censored-messages"));
+        CensorManager.setReplacementPercent(config.getInt("replacement-percent"));
+        CensorManager.setCensorNotificationEnabled(config.getBoolean("censor-notification.enabled"));
+        CensorManager.setCensorNotificationMessage(config.getString("censor-notification.message"));
+        CensorManager.setDuplicateMessageInterval(config.getLong("duplicate-message-interval"));
+
+        EssentialsXHook.setEditPrivateMessages(config.getBoolean("censor-options.private-messages"));
+        DiscordSRVHook.setEditMessages(config.getBoolean("censor-options.discordSRV"));
     }
 
     private void readCensorList(NotCensor notCensor) {
@@ -53,7 +52,7 @@ public class ConfigOptions {
         if (!censorFile.exists())
             notCensor.saveResource("censor_list.txt", false);
 
-        censoredWords = new HashSet<>();
+        Set<String> censoredWords = new HashSet<>();
         // read through each line in the file
         try (BufferedReader reader = new BufferedReader(new FileReader(censorFile))) {
             String word = reader.readLine();
@@ -67,25 +66,7 @@ public class ConfigOptions {
             Bukkit.getLogger().warning("[NotCensor] Error reading the censor list!");
             Bukkit.getLogger().warning(e.toString());
         }
-    }
 
-    public boolean isCensorNotificationEnabled() {
-        return censorNotificationEnabled;
-    }
-
-    public boolean isRemoveCensoredMessages() {
-        return removeCensoredMessages;
-    }
-
-    public int getReplacementPercent() {
-        return replacementPercent;
-    }
-
-    public String getCensorNotificationMessage() {
-        return censorNotificationMessage;
-    }
-
-    public Set<String> getCensoredWords() {
-        return censoredWords;
+        CensorManager.setCensoredWords(censoredWords);
     }
 }

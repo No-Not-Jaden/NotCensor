@@ -4,6 +4,7 @@ main: me.jadenp.notcensor.NotCensor
 api-version: '1.13'
 author: Not_Jaden
 softdepend:
+  - EssentialsX
   - DiscordSRV
 commands:
   NotCensor:

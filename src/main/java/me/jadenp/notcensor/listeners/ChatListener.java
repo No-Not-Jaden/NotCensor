@@ -12,6 +12,10 @@ public class ChatListener implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onChat(AsyncPlayerChatEvent event) {
         CensorManager.processMessage(new AsyncChatMessage(event));
+
+        if (!event.isCancelled()) {
+
+        }
     }
 
 }

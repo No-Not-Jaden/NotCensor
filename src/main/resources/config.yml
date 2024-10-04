@@ -17,3 +17,19 @@ censor-options:
   private-messages: true
   # messages sent to and from discordSRV
   discordSRV: true
+# chat features
+chat-options:
+  # players will see a highlighted message and get a sound when there is an @(name) in chat
+  mention-players: true
+  # text displayed when you hover over a username in chat
+  # this may interfere with other plugins that read chat
+  hover-information:
+    enabled: false
+    # this example uses PlaceholderAPI Player placeholders
+    # Built in placeholders:
+    # {name} - The player's ign
+    # {displayName} - The player's display name
+    text:
+      - '&7&m----- &f{name} &7&m----'
+      - '&cHealth: &f%player_health%&r♡'
+      - '&aExperience: &f%player_exp%'

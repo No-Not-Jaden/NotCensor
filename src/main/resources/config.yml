@@ -21,6 +21,10 @@ censor-options:
 chat-options:
   # players will see a highlighted message and get a sound when there is an @(name) in chat
   mention-players: true
+  # the color character used to highlight the mentioned player
+  mention-color-char: a
+  # the prefix used
+  mention-prefix: '@'
   # text displayed when you hover over a username in chat
   # this may interfere with other plugins that read chat
   hover-information:

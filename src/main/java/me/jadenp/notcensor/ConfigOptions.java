@@ -33,6 +33,8 @@ public class ConfigOptions {
         readConfig(notCensor.getConfig()); // read config options and store to variables
 
         readCensorList(notCensor); // read censor_list.txt file and load all words into censoredWords
+
+        PlaceholderAPIClass.setPapiEnabled(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")); // check if papi is enabled
     }
 
     private void readConfig(FileConfiguration config) {
@@ -44,6 +46,12 @@ public class ConfigOptions {
 
         EssentialsXHook.setEditPrivateMessages(config.getBoolean("censor-options.private-messages"));
         DiscordSRVHook.setEditMessages(config.getBoolean("censor-options.discordSRV"));
+
+        ChatHandler.setMentionPlayers(config.getBoolean("chat-options.mention-players"));
+        ChatHandler.setMentionColor(config.getString("chat-options.mention-color-char"));
+        ChatHandler.setHoverInformation(config.getBoolean("chat-options.hover-information.enabled"));
+        ChatHandler.setHoverText(config.getStringList("chat-options.hover-information.text"));
+        ChatHandler.setMentionString(config.getString("chat-options.mention-prefix"));
     }
 
     private void readCensorList(NotCensor notCensor) {

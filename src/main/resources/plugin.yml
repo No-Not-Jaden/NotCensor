@@ -6,6 +6,7 @@ author: Not_Jaden
 softdepend:
   - EssentialsX
   - DiscordSRV
+  - PlaceholderAPI
 commands:
   NotCensor:
     description: Used to control the plugin.

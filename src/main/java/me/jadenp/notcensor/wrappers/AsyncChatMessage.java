@@ -1,5 +1,7 @@
 package me.jadenp.notcensor.wrappers;
 
+import me.jadenp.notcensor.ChatHandler;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -68,6 +70,13 @@ public class AsyncChatMessage implements CensorableMessage{
     public void sendPseudoMessage(String message, Set<Player> recipients) {
         if (!recipients.isEmpty()) {
             String formattedMessage = getFormattedPlayerMessage(event.getPlayer(), message, recipients);
+            for (Player player : recipients) {
+                TextComponent textComponent = new net.md_5.bungee.api.chat.TextComponent(formattedMessage);
+                if (ChatHandler.isHoverInformation()) {
+                    textComponent.setHoverEvent(ChatHandler.getHoverEvent(event.getPlayer()));
+                }
+                player.spigot().sendMessage(textComponent);
+            }
             recipients.forEach(player -> player.sendMessage(formattedMessage));
         }
     }
